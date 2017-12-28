@@ -1,2 +1,6 @@
 # exercism.io go
 /go/*/*.*
+
+# exercism.io haskell
+/haskell/*/*
+!/haskell/*.hs
