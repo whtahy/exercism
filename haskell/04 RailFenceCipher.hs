@@ -1,5 +1,5 @@
 -- Credit to https://github.com/Average-user
--- Original solution at https://git.io/vbbYK
+-- Adapted from https://git.io/vbbYK
 
 module RailFenceCipher
   ( encode
@@ -21,4 +21,4 @@ decode n s = concat $ sort ii ss
     ii = [1 .. length s]
 
 sort :: [Int] -> [(Int, t)] -> [[t]]
-sort ii ss = [ [ snd x | x <- ss, fst x == i ] | i <- ii ]
+sort ii ss = [[ snd x | x <- ss, fst x == i] | i <- ii]
