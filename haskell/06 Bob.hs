@@ -15,13 +15,13 @@ query [] = False
 query s
     | not (null q) = head q == '?'
     | otherwise    = False
-    where q = strip $ reverse s
+  where q = strip $ reverse s
 
 yell :: String -> Bool
 yell s = a && b
   where
     a = find ['a' .. 'z'] False s
-    b = find ['A' .. 'Z'] True s
+    b = find ['A' .. 'Z'] True  s
     find ls b [] = not b
     find ls b (x:xs)
         | elem x ls = b
@@ -32,7 +32,7 @@ pause [] = True
 pause (x:xs)
     | elem x wh = pause xs
     | otherwise = False
-    where wh = [' ', '\t', '\r', '\n', '\f']
+  where wh = [' ', '\t', '\r', '\n', '\f']
 
 strip :: String -> String
 strip [] = []

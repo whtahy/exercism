@@ -1,17 +1,13 @@
+-- Credit to https://github.com/fintara
+-- Adapted from http://exercism.io/submissions/1af012d2e1014a57b4931c7a7e1d99f3
+
 module DNA (toRNA) where
 
 toRNA :: String -> Maybe String
-toRNA s
-    | elem qq r = Nothing
-    | otherwise = Just r
+toRNA = mapM f
   where
-    r = map f s
-
-f x
-    | x == 'G'  = 'C'
-    | x == 'C'  = 'G'
-    | x == 'T'  = 'A'
-    | x == 'A'  = 'U'
-    | otherwise = qq
-
-qq = '!' -- wildcard
+    f 'G' = Just 'C'
+    f 'C' = Just 'G'
+    f 'T' = Just 'A'
+    f 'A' = Just 'U'
+    f _   = Nothing

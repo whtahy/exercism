@@ -9,7 +9,7 @@ isbn s
   where
     x     = parse s
     coeff = [10, 9 .. 1]
-    valid = length x == 10 && notElem 10 (init x)
+    valid = null (drop 10 x) && notElem 10 (init x)
 
 parse :: String -> [Int]
 parse [] = []
