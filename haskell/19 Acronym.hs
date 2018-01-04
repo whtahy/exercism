@@ -1,7 +1,9 @@
 module Acronym (abbreviate) where
 
+import Data.Char (toUpper)
+
 abbreviate :: String -> String
-abbreviate s = map toUpp $ head s : f "" s
+abbreviate s = map toUpper $ head s : f "" s
 
 f :: String -> String -> String
 f acro [] = acro
@@ -12,11 +14,4 @@ f acro (x:xs)
   where
     space = x == ' '
     dash  = x == '-'
-    camel = elem x low && elem (head xs) upp
-
--- prelude only just for fun
-toUpp ch
-    | elem ch low = snd .head $ filter ((== ch) . fst) $ zip low upp
-    | otherwise   = ch
-low = ['a'..'z']
-upp = ['A'..'Z']
+    camel = elem x ['a'..'z'] && elem (head xs) ['A'..'Z']
