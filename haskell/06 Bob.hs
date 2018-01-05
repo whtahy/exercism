@@ -2,40 +2,32 @@ module Bob
   ( responseFor
   ) where
 
+import Data.Char (isAlpha, isSpace, isUpper)
+
 responseFor :: String -> String
 responseFor s
-    | query s && yell s = "Calm down, I know what I'm doing!"
-    | query s           = "Sure."
-    | yell s            = "Whoa, chill out!"
-    | pause s           = "Fine. Be that way!"
-    | otherwise         = "Whatever."
+    | q && y    = "Calm down, I know what I'm doing!"
+    | q         = "Sure."
+    | y         = "Whoa, chill out!"
+    | p         = "Fine. Be that way!"
+    | otherwise = "Whatever."
+  where
+    q = query s
+    y = yell  s
+    p = pause s
 
 query :: String -> Bool
-query [] = False
-query s
-    | not (null q) = head q == '?'
-    | otherwise    = False
-  where q = strip $ reverse s
+query s = check (== '?') x
+  where
+    x = filter (not . isSpace) $ dropWhile (/= '?') s
 
 yell :: String -> Bool
-yell s = a && b
+yell s = check isUpper x
   where
-    a = find ['a' .. 'z'] False s
-    b = find ['A' .. 'Z'] True  s
-    find ls b [] = not b
-    find ls b (x:xs)
-        | elem x ls = b
-        | otherwise = find ls b xs
+    x = filter isAlpha s
 
 pause :: String -> Bool
-pause [] = True
-pause (x:xs)
-    | elem x wh = pause xs
-    | otherwise = False
-  where wh = [' ', '\t', '\r', '\n', '\f']
+pause = all isSpace
 
-strip :: String -> String
-strip [] = []
-strip (x:xs)
-    | x == ' '  = strip xs
-    | otherwise = x : xs
+check :: Foldable t => (a -> Bool) -> t a -> Bool
+check f x = all f x && not (null x) -- at least 1
