@@ -6,28 +6,13 @@ import Data.Char (isAlpha, isSpace, isUpper)
 
 responseFor :: String -> String
 responseFor s
-    | q && y    = "Calm down, I know what I'm doing!"
-    | q         = "Sure."
-    | y         = "Whoa, chill out!"
-    | p         = "Fine. Be that way!"
-    | otherwise = "Whatever."
+    | pause          = "Fine. Be that way!"
+    | query && shout = "Calm down, I know what I'm doing!"
+    | query          = "Sure."
+    | shout          = "Whoa, chill out!"
+    | otherwise      = "Whatever."
   where
-    q = query s
-    y = yell  s
-    p = pause s
-
-query :: String -> Bool
-query s = check (== '?') x
-  where
-    x = filter (not . isSpace) $ dropWhile (/= '?') s
-
-yell :: String -> Bool
-yell s = check isUpper x
-  where
-    x = filter isAlpha s
-
-pause :: String -> Bool
-pause = all isSpace
-
-check :: Foldable t => (a -> Bool) -> t a -> Bool
-check f x = all f x && not (null x) -- at least 1
+    x     = filter (not . isSpace) s
+    pause = null x
+    query = last x == '?'
+    shout = any isAlpha x && (all isUpper . filter isAlpha) x
