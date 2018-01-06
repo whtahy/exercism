@@ -1,12 +1,7 @@
 module Isogram (isIsogram) where
 
-import Data.Char (toLower)
+import Data.Char (isAlpha, toLower)
+import Data.List (group, sort)
 
 isIsogram :: String -> Bool
-isIsogram = f (flip elem ['a' .. 'z']) . map toLower
-
-f :: Eq a => (a -> Bool) -> [a] -> Bool
-f cond [] = True
-f cond (x:xs)
-    | cond x && elem x xs = False
-    | otherwise           = f cond xs
+isIsogram = all ((== 1) . length) . group . sort . map toLower . filter isAlpha
