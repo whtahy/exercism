@@ -17,4 +17,4 @@ iter mp (x:xs)
     | otherwise       = Left "error string"
 
 incr :: (Ord k, Num a) => k -> Map k a -> Map k a
-incr = Map.adjust (1 +)
+incr = Map.adjust (+1)
