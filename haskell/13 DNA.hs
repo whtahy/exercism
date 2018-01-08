@@ -1,13 +1,7 @@
--- Credit to https://github.com/fintara
--- Adapted from http://exercism.io/submissions/1af012d2e1014a57b4931c7a7e1d99f3
+-- Credit to https://github.com/corneliusweig via https://github.com/jmg-duarte
+-- Adapted from http://exercism.io/submissions/6e8c7d24774d407c9993a812f4f48b0c
 
 module DNA (toRNA) where
 
 toRNA :: String -> Maybe String
-toRNA = mapM f
-  where
-    f 'G' = Just 'C'
-    f 'C' = Just 'G'
-    f 'T' = Just 'A'
-    f 'A' = Just 'U'
-    f _   = Nothing
+toRNA = mapM $ flip lookup (zip "GCTA" "CGAU")
