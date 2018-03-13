@@ -4,3 +4,7 @@
 # exercism.io haskell
 /haskell/*/*
 !/haskell/*.hs
+
+# exercism.io rust
+/rust/*/*
+!/rust/*.rs
