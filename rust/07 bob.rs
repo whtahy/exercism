@@ -1,6 +1,7 @@
 pub fn reply(msg: &str) -> &str {
     let msg = msg.trim();
-    if msg.is_empty() {
+
+    if msg.is_empty() {
         "Fine. Be that way!"
     } else if query(msg) && shout(msg) {
         "Calm down, I know what I'm doing!"
@@ -12,10 +13,12 @@ pub fn reply(msg: &str) -> &str {
         "Whatever."
     }
 }
-fn query(msg: &str) -> bool {
+
+fn query(msg: &str) -> bool {
     msg.ends_with('?')
 }
-fn shout(msg: &str) -> bool {
+
+fn shout(msg: &str) -> bool {
     let upper = msg.to_uppercase();
     upper == msg && upper != msg.to_lowercase()
 }
