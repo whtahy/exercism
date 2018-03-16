@@ -1,66 +1,37 @@
-/*
-exercism.io go #21
-
-Given two lists determine if the first list is contained within the second
-list, if the second list is contained within the first list, if both lists
-are contained within each other or if none of these are true.
-
-Specifically, a list A is a sublist of list B if by dropping 0 or more
-elements from the front of B and 0 or more elements from the back of B you
-get a list that's completely equal to A.
-
-Examples:
-
-A = [1, 2, 3]
-B = [1, 2, 3, 4, 5]
-A is a sublist of B.
-
-A = [1, 2, 3]
-B = [1, 2, 3]
-A is equal to B.
-
-A = [1, 2, 3, 4, 5]
-B =    [2, 3, 4]
-A is a superlist of B.
-
-A = [1, 2, 4]
-B = [1, 2, 3, 4, 5]
-A is not a superlist of, sublist of or equal to B.
-*/
 package sublist
 
 type Relation string
 
 func Sublist(listA, listB []int) Relation {
-	var rel Relation
+    var rel Relation
 
-	// assert len(listA) < len(listB)
-	if len(listA) < len(listB) {
-		rel = "sublist"
-	} else if len(listA) == len(listB) {
-		rel = "equal"
-	} else {
-		rel = "superlist"
-		listA, listB = listB, listA
-	}
+    // assert len(listA) < len(listB)
+    if len(listA) < len(listB) {
+        rel = "sublist"
+    } else if len(listA) == len(listB) {
+        rel = "equal"
+    } else {
+        rel = "superlist"
+        listA, listB = listB, listA
+    }
 
-	// sliding window
-	for i := 0; i <= len(listB)-len(listA); i++ {
-		if equals(listA, listB[i:i+len(listA)]) {
-			return rel
-		}
-	}
+    // sliding window
+    for i := 0; i <= len(listB)-len(listA); i++ {
+        if equals(listA, listB[i:i+len(listA)]) {
+            return rel
+        }
+    }
 
-	// default Relation
-	return "unequal"
+    // default Relation
+    return "unequal"
 }
 
 func equals(listA, listB []int) bool {
-	// assume len(listA) == len(listB)
-	for i := range listA {
-		if listA[i] != listB[i] {
-			return false
-		}
-	}
-	return true // includes empty lists
+    // assume len(listA) == len(listB)
+    for i := range listA {
+        if listA[i] != listB[i] {
+            return false
+        }
+    }
+    return true // includes empty lists
 }
