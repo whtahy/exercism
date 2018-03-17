@@ -26,8 +26,8 @@ fn aliquot_sum(n: u64) -> u64 {
     }
 
     let lim = (n as f64).sqrt().ceil() as u64;
-    (2..lim)
-        .filter(|x| n % x == 0)
-        .map(|x| x + n / x)
-        .sum::<u64>() + 1
+    1
+        + (2..lim)
+            .filter(|x| n % x == 0)
+            .fold(0, |sum, x| sum + x + n / x)
 }
