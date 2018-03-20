@@ -25,9 +25,17 @@ fn aliquot_sum(n: u64) -> u64 {
         return 0;
     }
 
-    let lim = (n as f64).sqrt().ceil() as u64;
+    let lim = (n as f64).sqrt() as u64;
     1
-        + (2..lim)
+        + (2..lim + 1)
             .filter(|x| n % x == 0)
-            .fold(0, |sum, x| sum + x + n / x)
+            .fold(0, |sum, x| sum + unique(x, n / x))
+}
+
+fn unique(a: u64, b: u64) -> u64 {
+    if a == b {
+        a
+    } else {
+        a + b
+    }
 }
