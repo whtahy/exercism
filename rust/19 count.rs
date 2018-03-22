@@ -1,38 +1,53 @@
-const NAMES: [&str; 6] = [
-    "thousand",
-    "million",
-    "billion",
-    "trillion",
-    "quadrillion",
-    "quintillion",
-];
-
-pub fn encode(mut x: u64) -> String {
-    if x == 0 {
+pub fn encode(n: u64) -> String {
+    if n == 0 {
         return "zero".to_string();
     }
 
-    let m = (x as f64).log10() as u32 / 3;
+    chunks(n)
+        .iter()
+        .filter(|&&(x, _)| x != 0)
+        .map(|&x| encode_chunk(x))
+        .collect::<Vec<String>>()
+        .join(" ")
+}
 
-    let mut v = Vec::new();
-    for i in (0..m + 1).rev() {
-        let n = x / 10_u64.pow(i * 3);
-        if n > 0 {
-            v.push(hundreds(n));
-            if i > 0 {
-                v.push(NAMES[i as usize - 1].to_string());
-            }
-        }
-        x %= 10_u64.pow(i * 3);
+fn encode_chunk((x, p): (u64, u8)) -> String {
+    if p == 0 {
+        return hundreds(x);
     }
-    v.join(" ")
+    format!("{} {}", hundreds(x), powers(p))
+}
+
+fn chunks(mut n: u64) -> Vec<(u64, u8)> {
+    let mut v = Vec::new();
+
+    let m = (n as f64).log10() as u32 / 3;
+    for i in (0..m + 1).rev() {
+        v.push((n / 10_u64.pow(i * 3), i as u8 * 3));
+        n %= 10_u64.pow(i * 3);
+    }
+    v
+}
+
+fn powers(x: u8) -> String {
+    match x {
+        3 => "thousand",
+        6 => "million",
+        9 => "billion",
+        12 => "trillion",
+        15 => "quadrillion",
+        18 => "quintillion",
+        _ => panic!("Ho, ho, ho!"),
+    }.to_string()
 }
 
 fn hundreds(x: u64) -> String {
-    match x {
-        0...99 => tens(x),
-        _ if x % 100 == 0 => format!("{} hundred", smalls(x / 100)),
-        _ => format!("{} hundred {}", smalls(x / 100), tens(x % 100)),
+    if x < 100 {
+        tens(x)
+    } else if x % 100 == 0 {
+        format!("{} hundred", smalls(x / 100))
+    } else {
+        format!("{} hundred {}", smalls(x / 100), tens(x % 100))
     }
 }
 
@@ -50,7 +65,7 @@ fn tens(x: u64) -> String {
         7 => "seventy",
         8 => "eighty",
         9 => "ninety",
-        _ => panic!("Ha ha ha!"),
+        _ => panic!("Ha, ha, ha!"),
     }.to_string();
 
     if x % 10 == 0 {
