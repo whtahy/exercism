@@ -24,7 +24,7 @@ pub fn nucleotide_counts(s: &str) -> Result<HashMap<char, usize>, DnaError> {
 
     for ch in s.chars() {
         if NUCLEOTIDES.contains(&ch) {
-            *h.entry(ch).or_insert(1) += 1;
+            *h.entry(ch).or_insert(0) += 1;
         } else {
             return Err(DnaError::BadString);
         }
